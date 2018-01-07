@@ -1,8 +1,11 @@
 import { Component,OnInit } from "@angular/core";
 import { FormControl,FormGroup,Validators } from "@angular/forms";
 import { ISession } from "../index";
+import { Output } from "@angular/core";
+import { EventEmitter } from "@angular/core";
 
 @Component({
+    selector:'create-session',
     templateUrl: 'app/events/event-details/create-session.component.html',
     styles:[
         `
@@ -13,9 +16,11 @@ import { ISession } from "../index";
           .error :-moz-placeholder { color: #999;}
           .error :ms-input-placeholder { color: #999;}
         `
-      ]
+    ]
 })
 export class CreateSessionComponent implements OnInit{
+    @Output() saveNewSession = new EventEmitter();
+    @Output() cancelAddSession = new EventEmitter();
     newSessionForm: FormGroup;
     abstract: FormControl;
     level: FormControl;
@@ -55,6 +60,10 @@ export class CreateSessionComponent implements OnInit{
             id:999,
             voters:[]
         }
-        console.log(session);
+       this.saveNewSession.emit(session);
+    }
+
+    cancel(){
+        this.cancelAddSession.emit();
     }
 }
